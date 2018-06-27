@@ -1,0 +1,5 @@
+spring:
+ application:
+   name: tickets-checker-service
+server:
+ port: 8080
