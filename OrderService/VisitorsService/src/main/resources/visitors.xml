@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<visitors>
+    <visitor>
+        <id>1</id>
+        <name>James Adcox</name>
+        <age>13</age>
+    </visitor>
+    <visitor>
+        <id>2</id>
+        <name>Garold Grey</name>
+        <age>60</age>
+    </visitor>
+    <visitor>
+        <id>3</id>
+        <name>Alfred Alborn</name>
+        <age>25</age>
+    </visitor>
+</visitors>
