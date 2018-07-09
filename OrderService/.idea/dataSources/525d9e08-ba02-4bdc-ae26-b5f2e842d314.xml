@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="ticket_booking@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.4">
+    <root id="1"/>
+    <database id="2" parent="1" name="ticket_booking">
+      <ObjectId>24851</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <database id="3" parent="1" name="postgres">
+      <ObjectId>13255</ObjectId>
+    </database>
+    <schema id="4" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2018-06-29.18:27:28.248</IntrospectionTimestamp>
+      <IntrospectionStateNumber>890</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="5" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="6" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="7" parent="2" name="pg_temp_1">
+      <ObjectId>11736</ObjectId>
+    </schema>
+    <schema id="8" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11737</ObjectId>
+    </schema>
+    <schema id="9" parent="2" name="information_schema">
+      <ObjectId>12965</ObjectId>
+    </schema>
+    <table id="10" parent="4" name="booking">
+      <ObjectId>24911</ObjectId>
+      <StateNumber>890</StateNumber>
+    </table>
+    <table id="11" parent="4" name="film">
+      <ObjectId>24890</ObjectId>
+      <StateNumber>889</StateNumber>
+    </table>
+    <table id="12" parent="4" name="hall">
+      <ObjectId>24852</ObjectId>
+      <StateNumber>889</StateNumber>
+    </table>
+    <table id="13" parent="4" name="session">
+      <ObjectId>24895</ObjectId>
+      <StateNumber>890</StateNumber>
+    </table>
+    <column id="14" parent="10" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>890</StateNumber>
+    </column>
+    <column id="15" parent="10" name="user_id">
+      <Position>2</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>890</StateNumber>
+    </column>
+    <column id="16" parent="10" name="session_id">
+      <Position>3</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>890</StateNumber>
+    </column>
+    <column id="17" parent="10" name="tickets_amount">
+      <Position>4</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>890</StateNumber>
+    </column>
+    <index id="18" parent="10" name="booking_pkey">
+      <ObjectId>24915</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="19" parent="10" name="booking_pkey">
+      <ObjectId>24916</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>booking_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="20" parent="10" name="booking_session_id_fkey">
+      <ObjectId>24917</ObjectId>
+      <ColNames>session_id</ColNames>
+      <RefTableId>24895</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>session</RefTableName>
+      <RefKeyName>session_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <check id="21" parent="10" name="booking_tickets_amount_check">
+      <ObjectId>24914</ObjectId>
+      <ColNames>tickets_amount</ColNames>
+      <Predicate>tickets_amount &gt; 0</Predicate>
+    </check>
+    <column id="22" parent="11" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>887</StateNumber>
+    </column>
+    <column id="23" parent="11" name="title">
+      <Position>2</Position>
+      <DataType>varchar(40)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>887</StateNumber>
+    </column>
+    <column id="24" parent="11" name="description">
+      <Position>3</Position>
+      <DataType>varchar(40)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>887</StateNumber>
+    </column>
+    <index id="25" parent="11" name="film_pkey">
+      <ObjectId>24893</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="26" parent="11" name="film_pkey">
+      <ObjectId>24894</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>film_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="27" parent="12" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>878</StateNumber>
+    </column>
+    <column id="28" parent="12" name="capacity">
+      <Position>2</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>878</StateNumber>
+    </column>
+    <index id="29" parent="12" name="hall_pkey">
+      <ObjectId>24856</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="30" parent="12" name="hall_pkey">
+      <ObjectId>24857</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>hall_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <check id="31" parent="12" name="hall_capacity_check">
+      <ObjectId>24855</ObjectId>
+      <ColNames>capacity</ColNames>
+      <Predicate>capacity &gt; 0</Predicate>
+    </check>
+    <column id="32" parent="13" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>889</StateNumber>
+    </column>
+    <column id="33" parent="13" name="film_id">
+      <Position>2</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>889</StateNumber>
+    </column>
+    <column id="34" parent="13" name="hall_id">
+      <Position>3</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>889</StateNumber>
+    </column>
+    <column id="35" parent="13" name="time">
+      <Position>4</Position>
+      <DataType>timestamp|0</DataType>
+      <StateNumber>889</StateNumber>
+    </column>
+    <index id="36" parent="13" name="session_pkey">
+      <ObjectId>24899</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="37" parent="13" name="session_pkey">
+      <ObjectId>24900</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>session_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="38" parent="13" name="session_film_id_fkey">
+      <ObjectId>24901</ObjectId>
+      <ColNames>film_id</ColNames>
+      <RefTableId>24890</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>film</RefTableName>
+      <RefKeyName>film_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="39" parent="13" name="session_hall_id_fkey">
+      <ObjectId>24906</ObjectId>
+      <ColNames>hall_id</ColNames>
+      <RefTableId>24852</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>hall</RefTableName>
+      <RefKeyName>hall_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <check id="40" parent="13" name="session_time_check">
+      <ObjectId>24898</ObjectId>
+      <ColNames>time</ColNames>
+      <Predicate>&quot;time&quot; &gt; CURRENT_TIMESTAMP</Predicate>
+    </check>
+  </database-model>
+</dataSource>

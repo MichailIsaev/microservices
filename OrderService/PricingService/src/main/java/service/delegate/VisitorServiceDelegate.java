@@ -1,17 +1,17 @@
-package service;
+package service.delegate;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import service.domain.Visitor;
 
 import java.io.IOException;
-import java.net.URI;
 
 @Service
 public class VisitorServiceDelegate {
@@ -37,23 +37,25 @@ public class VisitorServiceDelegate {
         this.discoveryClient = discoveryClient;
     }
 
-    public Integer getAge(Integer id) throws RuntimeException, IOException {
-        //TODO: discovery client approach
-        /*String url = discoveryClient.
-                getInstances("visitor-info-service").
-                stream()
-                .findAny()
-                .orElseThrow(RuntimeException::new).getUri().toString();*/
+    public Integer getAge(int id) throws NullPointerException {
 
-        String response = restTemplate.exchange(
-                "http://visitor-info-service/visitor/{id}",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<String>() {
-                },
-                id
-        ).getBody();
+        Integer age = null;
 
-        return objectMapper.readTree(response).path("age").asInt();
+        try {
+            String response = restTemplate.exchange(
+                    "http://visitor-info-service/visitors/{id}",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<String>() {
+                    },
+                    id
+            ).getBody();
+
+            age = objectMapper.readTree(response).path("age").asInt();
+
+        } catch (NullPointerException | IOException | HttpClientErrorException e) {
+            System.err.println("Could`t parse response from Visitors service !");
+        }
+        return age;
     }
 }

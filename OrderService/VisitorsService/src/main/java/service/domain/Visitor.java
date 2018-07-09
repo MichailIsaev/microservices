@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlType;
 @Data
 @XmlType(name = "visitor")
 public class Visitor {
-    @Setter @Getter private Integer id;
+    @Setter @Getter private int id;
 
     @Setter @Getter private String name;
 
-    @Setter @Getter private Integer age;
+    @Setter @Getter private int age;
 }
