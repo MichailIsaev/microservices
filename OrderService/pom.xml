@@ -62,6 +62,12 @@
             <version>9.1-901-1.jdbc4</version>
         </dependency>
         <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>1.58</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -80,7 +86,6 @@
         </dependencies>
     </dependencyManagement>
 
-
     <build>
         <pluginManagement>
             <plugins>
@@ -92,37 +97,26 @@
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.6.0</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <mainClass>none</mainClass>
+                    </configuration>
+                    <executions>
+                        <execution>
+
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <id>pricing_service</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>OrderService.PricingService.src.main.java.PricingServiceApplication</mainClass>
-                        </configuration>
-                    </execution>
-                    <!--<execution>
-                        <id>second-execution</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>com.mycompany.BarServer</mainClass>
-                        </configuration>
-                    </execution>-->
-                </executions>
             </plugin>
         </plugins>
     </build>

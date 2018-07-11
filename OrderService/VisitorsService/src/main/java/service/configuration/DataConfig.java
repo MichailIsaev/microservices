@@ -21,7 +21,7 @@ public class DataConfig {
         return new ParserImpl();
     }
 
-    @Bean("visitors")
+    @Bean
     public Visitors loadVisitors() throws BeanCreationException, IOException {
         Visitors visitors = null;
         try {

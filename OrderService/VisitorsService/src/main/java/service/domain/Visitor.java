@@ -11,8 +11,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "visitor")
 public class Visitor {
     @Setter @Getter private int id;
-
     @Setter @Getter private String name;
-
     @Setter @Getter private int age;
 }

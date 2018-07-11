@@ -1,5 +1,6 @@
 package service.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,6 @@ import java.util.List;
 @Data
 @XmlRootElement(name = "visitors")
 @XmlType
-@Component
 public class Visitors {
 
     @Getter

@@ -13,6 +13,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.StampedLock;
 
 @Component
 public class PricingServiceDelegate {
@@ -22,6 +24,8 @@ public class PricingServiceDelegate {
     private DiscoveryClient discoveryClient;
 
     private ObjectMapper objectMapper;
+
+    private ReentrantLock reentrantLock = new ReentrantLock();
 
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
@@ -38,13 +42,15 @@ public class PricingServiceDelegate {
         this.discoveryClient = discoveryClient;
     }
 
-    public double getPrice(int visitorId, LocalDateTime seanceTime) throws NullPointerException, IOException {
+    public Double getPrice(int visitorId, LocalDateTime seanceTime) throws NullPointerException, IOException {
 
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl("http://pricing-service/price").
                 queryParam("seance_time", seanceTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))).
                 queryParam("visitor_id", visitorId);
 
         String response = null;
+
+        reentrantLock.lock();
 
         try {
             response = restTemplate.exchange(
@@ -56,6 +62,8 @@ public class PricingServiceDelegate {
             ).getBody();
         } catch (HttpClientErrorException e) {
             System.err.println("Could`t attempt response data from Price service");
+        } finally {
+            reentrantLock.unlock();
         }
 
         return objectMapper.readTree(response).path("price").asDouble();

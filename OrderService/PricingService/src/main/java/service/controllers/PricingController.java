@@ -1,10 +1,7 @@
 package service.controllers;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.fasterxml.jackson.databind.util.JSONWrappedObject;
-import com.sun.tools.javac.util.List;
+import org.bouncycastle.jcajce.provider.asymmetric.util.ExtendedInvalidKeySpecException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +18,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.concurrent.*;
 
 @Controller
 @RequestMapping("/price")
@@ -46,13 +44,18 @@ public class PricingController {
             @RequestParam("seance_time") @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime date,
             @RequestParam("visitor_id") int id) {
 
+
         double discount = 0;
 
         Integer age;
 
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
         try {
 
-            age = serviceDelegate.getAge(id);
+            final Future<Integer> ageAtFuture = executor.submit(serviceDelegate.getAge(id));
+
+            age = ageAtFuture.get();
 
             if (age > 55)
                 discount += 0.2;
@@ -60,8 +63,10 @@ public class PricingController {
             if (date.getHour() >= 10 && date.getHour() < 14)
                 discount += 0.3;
 
+            stop(executor);
 
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | InterruptedException | ExecutionException e) {
+            e.printStackTrace();
             return new ResponseEntity<Object>(
                     new HashMap<String, String>() {{
                         put("error_message", "Could`t parse data from Visitors service!");
@@ -69,6 +74,7 @@ public class PricingController {
                     }},
                     HttpStatus.NOT_FOUND
             );
+
         }
 
         return ResponseEntity.
@@ -76,4 +82,20 @@ public class PricingController {
                 contentType(MediaType.APPLICATION_JSON).
                 body(Collections.singletonMap("price", ticketPrice.getPrice() * (1 - discount)));
     }
+
+    private static void stop(ExecutorService executor) {
+        try {
+            executor.shutdown();
+            executor.awaitTermination(60, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            System.err.println("termination interrupted");
+        } finally {
+            if (!executor.isTerminated()) {
+                System.err.println("killing non-finished tasks");
+            }
+            executor.shutdownNow();
+        }
+    }
+
+
 }

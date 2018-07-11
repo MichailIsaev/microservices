@@ -1,15 +1,11 @@
 package service.controllers;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,9 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import service.domain.Visitors;
 
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import java.util.concurrent.*;
 
 @RestController
 @RequestMapping("/visitors")
+@Component
 public class VisitorsController {
 
     private Visitors visitors;
@@ -31,11 +32,11 @@ public class VisitorsController {
 
     @ResponseBody
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getVisitorById(@PathVariable("id") int id) {
+    public ResponseEntity getVisitorById(@PathVariable("id") int id) {
         try {
             return ResponseEntity.
                     status(HttpStatus.OK).
-                    body(visitors.getVisitors().stream()
+                    body(visitors.getVisitors().parallelStream()
                             .filter((visitor) -> visitor.getId() == id)
                             .findAny()
                             .orElseThrow(NullPointerException::new));

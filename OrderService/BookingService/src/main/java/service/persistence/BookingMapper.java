@@ -42,7 +42,7 @@ public interface BookingMapper {
             @Result(property = "ticketsAmount", column = "tickets_amount")
     })
     @Insert("INSERT INTO booking(user_id , session_id , tickets_amount ) VALUES(#{userId}, #{sessionId} , #{ticketsAmount})")
-    void addOrder(Order order) throws DataIntegrityViolationException;
+    void  addOrder(Order order) throws DataIntegrityViolationException;
 
     @Select(AVAILABLE_TICKETS)
     Integer getAvailableTickets(@Param("film_id") int filmId, @Param("time") LocalDateTime dateTime);

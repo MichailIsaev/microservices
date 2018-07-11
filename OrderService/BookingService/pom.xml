@@ -42,10 +42,16 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <version>1.6.0</version>
                 <configuration>
                     <mainClass>service.BookingServiceApplication</mainClass>
+                    <skip>false</skip>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>booking_service</id>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
